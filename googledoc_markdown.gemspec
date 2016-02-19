@@ -6,12 +6,11 @@ require 'googledoc_markdown/version'
 Gem::Specification.new do |spec|
   spec.name          = "googledoc_markdown"
   spec.version       = GoogledocMarkdown::VERSION
-  spec.authors       = ["TODO: Write your name"]
+  spec.authors       = ["Ivar Vong"]
   spec.email         = ["ivar@ivarvong.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Convert Google Document HTML to Markdown}
+  spec.homepage      = "https://github.com/ivarvong/googledoc_markdown"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or

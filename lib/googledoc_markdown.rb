@@ -1,5 +1,5 @@
 require "googledoc_markdown/version"
 
 module GoogledocMarkdown
-  # Your code goes here...
+  # TODO: write some code
 end
