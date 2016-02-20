@@ -41,9 +41,12 @@ class GoogledocMarkdown::Converter
   end
 
   def to_markdown
-    document = Kramdown::Document.new(to_html(), input: :html, remove_span_html_tags: true, line_width: 9000)    # remove_span_html_tags: true
-    document.to_kramdown
-
+    options = {
+      input: :html,
+      remove_span_html_tags: true,
+      line_width: 90000,
+    }
+    Kramdown::Document.new(to_html(), options).to_kramdown
   end
 
 
@@ -52,7 +55,7 @@ class GoogledocMarkdown::Converter
     def css_rules style_string
       declarations = {}
       rule_set = CssParser::RuleSet.new(nil, style_string)
-      rule_set.each_declaration do |property, value, is_imporant|
+      rule_set.each_declaration do |property, value, _|
         declarations[property] = value
       end
       declarations
