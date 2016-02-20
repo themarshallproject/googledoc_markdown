@@ -55,7 +55,7 @@ class GoogledocMarkdown::Converter
     def css_rules style_string
       declarations = {}
       rule_set = CssParser::RuleSet.new(nil, style_string)
-      rule_set.each_declaration do |property, value, is_imporant|
+      rule_set.each_declaration do |property, value, _|
         declarations[property] = value
       end
       declarations
