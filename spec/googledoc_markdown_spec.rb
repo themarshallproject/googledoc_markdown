@@ -5,7 +5,10 @@ describe GoogledocMarkdown do
     expect(GoogledocMarkdown::VERSION).not_to be nil
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  it 'creates the expected fixture output' do
+    input  = File.read File.join(File.dirname(__dir__), '/spec/fixtures/simple/input.html')
+    output = File.read File.join(File.dirname(__dir__), '/spec/fixtures/simple/output.md')
+    converter = GoogledocMarkdown::Converter.new(html: input)
+    expect(converter.convert).to eq(output)
   end
 end
