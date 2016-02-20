@@ -1,6 +1,8 @@
 # googledoc_markdown
 
-Build Status: [![Circle CI](https://circleci.com/gh/ivarvong/googledoc_markdown.svg?style=svg)](https://circleci.com/gh/ivarvong/googledoc_markdown)
+Circle CI Status: [![Circle CI](https://circleci.com/gh/ivarvong/googledoc_markdown.svg?style=svg)](https://circleci.com/gh/ivarvong/googledoc_markdown)
+
+Travis CI Status: [![Build Status](https://travis-ci.org/ivarvong/googledoc_markdown.svg?branch=master)](https://travis-ci.org/ivarvong/googledoc_markdown)
 
 TODO: write code
 
