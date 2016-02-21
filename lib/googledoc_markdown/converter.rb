@@ -57,7 +57,7 @@ class GoogledocMarkdown::Converter
   def partition_whitespace(input)
     re = /\A(\s{0,})(\S|\S.*\S)(\s{0,})\z/
     matches = re.match(input)
-    leading, content, trailing = $1, $2, $3
+    leading, content, trailing = matches[1], matches[2], matches[3]
     return [leading, content, trailing]
   end
 
