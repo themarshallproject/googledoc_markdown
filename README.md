@@ -4,6 +4,8 @@ Circle CI Status: [![Circle CI](https://circleci.com/gh/ivarvong/googledoc_markd
 
 Travis CI Status: [![Build Status](https://travis-ci.org/ivarvong/googledoc_markdown.svg?branch=master)](https://travis-ci.org/ivarvong/googledoc_markdown)
 
+Code Climate: [![Code Climate](https://codeclimate.com/github/ivarvong/googledoc_markdown/badges/gpa.svg)](https://codeclimate.com/github/ivarvong/googledoc_markdown)
+
 ## Why?
 
 At The Marshall Project, stories are edited in Google Docs. Many months ago I wrote a simple tool to convert the HTML export from a Google Doc to Markdown. (Internally, our stories are stored as Markdown).
