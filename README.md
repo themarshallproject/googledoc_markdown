@@ -9,9 +9,6 @@
 ![Code Climate](https://codeclimate.com/github/ivarvong/googledoc_markdown/badges/gpa.svg)](https://codeclimate.com/github/ivarvong/googledoc_markdown)
 
 ## Why?
->>>>>>> 124448e20d3c04249cd0029d804b8f4d1993e16c
-
-## Why?
 
 At [The Marshall Project](https://www.themarshallproject.org/), stories are edited in Google Docs. I wrote a quick tool to convert the HTML export from a Google Doc to Markdown. (Internally, our stories are stored as Markdown). Turns out, parsing CSS with regexes is not a great idea. This gem is the next iteration.
 
