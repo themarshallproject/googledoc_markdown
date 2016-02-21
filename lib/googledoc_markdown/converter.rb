@@ -6,13 +6,14 @@ require 'cgi'
 
 class GoogledocMarkdown::Converter
 
-  def initialize(html: nil)
-    inlined = inline_styles(html)
+  def initialize html: nil
+    return false if html.nil?
+
+    inlined = inline_styles(html.to_s)
     @body = body_for(inlined)
   end
 
   def to_html
-
     doc = Nokogiri::HTML.fragment(@body)
     doc.css('*').each do |el|
 
@@ -21,34 +22,44 @@ class GoogledocMarkdown::Converter
       el.delete('class')
 
       if rules['font-weight'] == 'bold'
-        el.inner_html = "<strong>#{el.inner_html}</strong>"
+        leading, content, trailing = partition_whitespace(el.inner_html)
+        el.inner_html = "#{leading}<strong>#{content}</strong>#{trailing}"
       end
 
       if rules['font-style'] == 'italic'
-        el.inner_html = "<em>#{el.inner_html}</em>"
+        leading, content, trailing = partition_whitespace(el.inner_html)
+        el.inner_html = "#{leading}<em>#{content}</em>#{trailing}"
       end
     end
 
     doc.css('span').each do |span|
-      span.swap(span.children) # remove <span> wrapping everything
+      #span.swap(span.children)
+      span.add_next_sibling(span.children.to_html)
+      span.remove
     end
 
     doc.css('a').each do |a|
       a['href'] = parse_link(a['href'])
     end
 
-    doc.to_html.lstrip
+    doc.to_html.gsub("<p></p>", '').lstrip
   end
 
   def to_markdown
     options = {
       input: :html,
-      remove_span_html_tags: true,
-      line_width: 90000,
+      remove_span_html_tags: true, # TODO: this may be a noop because it's on the wrong kramdown converter
+      line_width: 90000, # TODO: prevent line wrapping in a nicer way than this
     }
-    Kramdown::Document.new(to_html(), options).to_kramdown
+    Kramdown::Document.new(to_html, options).to_kramdown
   end
 
+  def partition_whitespace(input)
+    re = /\A(\s{0,})(\S|\S.*\S)(\s{0,})\z/
+    matches = re.match(input)
+    leading, content, trailing = $1, $2, $3
+    return [leading, content, trailing]
+  end
 
   private
 
@@ -69,7 +80,7 @@ class GoogledocMarkdown::Converter
       Nokogiri::HTML(html).css('body').inner_html
     end
 
-    def parse_link(href)
+    def parse_link href
       uri = URI.parse(href)
       params = CGI.parse(uri.query)
       params['q'].first
