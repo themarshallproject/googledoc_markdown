@@ -14,6 +14,7 @@ class GoogledocMarkdown::Converter
     inlined = inline_styles(@html)
     body = body_for(inlined)
     doc = Nokogiri::HTML.fragment(body)
+
     doc.css('*').each do |el|
 
       rules = css_rules(el['style'])
@@ -29,6 +30,15 @@ class GoogledocMarkdown::Converter
         leading, content, trailing = partition_whitespace(el.inner_html)
         el.inner_html = "#{leading}<em>#{content}</em>#{trailing}"
       end
+
+    end
+
+    doc.css('h1, h2, h3').each do |heading|
+      heading.inner_html = heading.inner_text
+    end
+
+    doc.css('ol').each do |ol|
+      ol.delete('start')
     end
 
     doc.css('span').each do |span|
@@ -37,6 +47,7 @@ class GoogledocMarkdown::Converter
       span.remove
     end
 
+    # first, fix the url by extracting the 'q' query param
     doc.css('a').each do |a|
       a['href'] = parse_link(a['href'])
     end
@@ -83,7 +94,9 @@ class GoogledocMarkdown::Converter
     end
 
     def parse_link href
-      uri = URI.parse(href)
+      uri = URI.parse(href) rescue nil
+      return href if uri.nil?
+
       params = CGI.parse(uri.query)
       params['q'].first
     end
