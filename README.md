@@ -1,11 +1,8 @@
 # googledoc_markdown
 
 [![Circle CI](https://circleci.com/gh/ivarvong/googledoc_markdown.svg?style=svg)](https://circleci.com/gh/ivarvong/googledoc_markdown)
-
 [![Build Status](https://travis-ci.org/ivarvong/googledoc_markdown.svg?branch=master)](https://travis-ci.org/ivarvong/googledoc_markdown)
-
 [![Dependency Status](https://gemnasium.com/ivarvong/googledoc_markdown.svg)](https://gemnasium.com/ivarvong/googledoc_markdown)
-
 [![Code Climate](https://codeclimate.com/github/ivarvong/googledoc_markdown/badges/gpa.svg)](https://codeclimate.com/github/ivarvong/googledoc_markdown)
 
 ## Why?
