@@ -30,7 +30,14 @@ And then execute:
 
 ## Usage
 
-TODO: Write usage instructions here
+This gem is not stable and probably shouldn't be used yet. [The spec](https://github.com/ivarvong/googledoc_markdown/blob/master/spec/googledoc_markdown/converter_spec.rb) might be useful.
+
+```ruby
+require 'googledoc_markdown'
+
+converter = GoogledocMarkdown::Converter.new(html: your_google_doc_html)
+markdown = converter.to_markdown
+```
 
 ## Development
 
