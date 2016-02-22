@@ -7,14 +7,13 @@ require 'cgi'
 class GoogledocMarkdown::Converter
 
   def initialize html: nil
-    return false if html.nil?
-
-    inlined = inline_styles(html.to_s)
-    @body = body_for(inlined)
+    @html = html.to_s
   end
 
   def to_html
-    doc = Nokogiri::HTML.fragment(@body)
+    inlined = inline_styles(@html)
+    body = body_for(inlined)
+    doc = Nokogiri::HTML.fragment(body)
     doc.css('*').each do |el|
 
       rules = css_rules(el['style'])
@@ -42,7 +41,10 @@ class GoogledocMarkdown::Converter
       a['href'] = parse_link(a['href'])
     end
 
-    doc.to_html.gsub("<p></p>", '').lstrip
+    doc
+      .to_html
+      .gsub("<p></p>", '')
+      .lstrip
   end
 
   def to_markdown
