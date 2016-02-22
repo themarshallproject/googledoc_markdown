@@ -34,7 +34,7 @@ TODO: Write usage instructions here
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `guard` to run the tests.
 
 ## Contributing
 
