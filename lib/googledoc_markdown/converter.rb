@@ -44,7 +44,7 @@ class GoogledocMarkdown::Converter
     options = {
       input: :html,
       remove_span_html_tags: true,
-      line_width: 90000,
+      line_width: 90000, # TODO
     }
     Kramdown::Document.new(to_html(), options).to_kramdown
   end
@@ -70,6 +70,7 @@ class GoogledocMarkdown::Converter
     end
 
     def parse_link(href)
+      # un-Google-ify the link
       uri = URI.parse(href)
       params = CGI.parse(uri.query)
       params['q'].first
