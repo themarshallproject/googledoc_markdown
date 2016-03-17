@@ -82,7 +82,7 @@ class GoogledocMarkdown::Converter
 
   def partition_whitespace(input)
     if input.strip == ''
-      return input
+      return ['', input, '']
     end
 
     re = /\A(\s{0,})(\S|\S.*\S)(\s{0,})\z/
