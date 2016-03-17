@@ -10,17 +10,8 @@ class GoogledocMarkdown::Converter
     @html = html.to_s
   end
 
-  def is_empty?(node)
-    # https://stackoverflow.com/questions/7183299/removing-p-elements-with-no-text-with-nokogiri
-    (node.text? && node.content.strip == '')
-  end
-
-  def rewrap(tag: nil, html: nil)
-    leading, content, trailing = partition_whitespace(html)
-    [leading, "<#{tag}>", content, "</#{tag}>", trailing].join('')
-  end
-
   def to_html
+    # public interface
     inlined = inline_styles(@html)
     body = body_for(inlined)
     doc = Nokogiri::HTML.fragment(body)
@@ -72,12 +63,23 @@ class GoogledocMarkdown::Converter
   end
 
   def to_markdown
+    # public interface
     options = {
       input: :html,
       remove_span_html_tags: true, # TODO: this may be a noop because it's on the wrong kramdown converter
       line_width: 90000, # TODO: prevent line wrapping in a nicer way than this
     }
     Kramdown::Document.new(to_html, options).to_kramdown
+  end
+
+  def is_empty?(node)
+    # https://stackoverflow.com/questions/7183299/removing-p-elements-with-no-text-with-nokogiri
+    (node.text? && node.content.strip == '')
+  end
+
+  def rewrap(tag: nil, html: nil)
+    leading, content, trailing = partition_whitespace(html)
+    [leading, "<#{tag}>", content, "</#{tag}>", trailing].join('')
   end
 
   def partition_whitespace(input)
@@ -91,32 +93,30 @@ class GoogledocMarkdown::Converter
     return [leading, content, trailing]
   end
 
-  private
-
-    def css_rules style_string
-      declarations = {}
-      rule_set = CssParser::RuleSet.new(nil, style_string)
-      rule_set.each_declaration do |property, value, _|
-        declarations[property] = value
-      end
-      declarations
+  def css_rules style_string
+    declarations = {}
+    rule_set = CssParser::RuleSet.new(nil, style_string)
+    rule_set.each_declaration do |property, value, _|
+      declarations[property] = value
     end
+    declarations
+  end
 
-    def inline_styles html
-      Roadie::Document.new(html).transform
-    end
+  def inline_styles html
+    Roadie::Document.new(html).transform
+  end
 
-    def body_for html
-      Nokogiri::HTML(html).css('body').inner_html
-    end
+  def body_for html
+    Nokogiri::HTML(html).css('body').inner_html
+  end
 
-    def parse_link href
-      # un-Google-ify the link
-      uri = URI.parse(href) rescue nil
-      params = CGI.parse(uri.query) rescue nil
-      params['q'].first
-    rescue
-      href
-    end
+  def parse_link href
+    # un-Google-ify the link
+    uri = URI.parse(href) rescue nil
+    params = CGI.parse(uri.query) rescue nil
+    params['q'].first
+  rescue
+    href
+  end
 
 end

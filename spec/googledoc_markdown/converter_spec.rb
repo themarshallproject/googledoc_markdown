@@ -16,6 +16,16 @@ describe GoogledocMarkdown::Converter do
     expect(fixtures.count).to be > 0
   end
 
+  it 'extracts google-wrapped links' do
+    converter = GoogledocMarkdown::Converter.new
+    expect(converter.parse_link('https://www.google.com/url?q=http://vice.com/&amp;sa=D')).to eq('http://vice.com/')
+  end
+
+  it 'passes through non-google links' do
+    converter = GoogledocMarkdown::Converter.new
+    expect(converter.parse_link('not-a-link')).to eq('not-a-link')
+  end
+
   it 'partitions whitespace in [leading, content, trailing]' do
     converter = GoogledocMarkdown::Converter.new
 
