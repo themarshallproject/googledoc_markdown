@@ -49,12 +49,19 @@ class GoogledocMarkdown::Converter
 
     # first, fix the url by extracting the 'q' query param
     doc.css('a').each do |a|
+      a.delete('style')
+      a.delete('class')
       a['href'] = parse_link(a['href'])
+    end
+
+    doc.css('*').each do |el|
+      if el.children.all?{ |child| is_empty?(child) }
+        el.remove
+      end
     end
 
     doc
       .to_html
-      .gsub("<p></p>", '')
       .lstrip
   end
 
@@ -68,6 +75,10 @@ class GoogledocMarkdown::Converter
   end
 
   def partition_whitespace(input)
+    if input.strip == ''
+      return input
+    end
+
     re = /\A(\s{0,})(\S|\S.*\S)(\s{0,})\z/
     matches = re.match(input)
     leading, content, trailing = matches[1], matches[2], matches[3]
@@ -96,10 +107,10 @@ class GoogledocMarkdown::Converter
     def parse_link href
       # un-Google-ify the link
       uri = URI.parse(href) rescue nil
-      return href if uri.nil?
-
-      params = CGI.parse(uri.query)
+      params = CGI.parse(uri.query) rescue nil
       params['q'].first
+    rescue
+      href
     end
 
 end
