@@ -21,9 +21,9 @@ describe GoogledocMarkdown::Converter do
 
     four_spaces = '    '
     empty_string = ''
-
-    expect(converter.partition_whitespace(four_spaces)).to eq([empty_string, four_spaces, empty_string])
+    expect(converter.partition_whitespace(four_spaces)).to  eq([empty_string, four_spaces,  empty_string])
     expect(converter.partition_whitespace(empty_string)).to eq([empty_string, empty_string, empty_string])
+
     expect(converter.partition_whitespace(' my string  ')).to eq([" ", "my string", "  "])
     expect(converter.partition_whitespace('a')).to eq(["", "a", ""])
     expect(converter.partition_whitespace('   a ')).to eq(["   ", "a", " "])
