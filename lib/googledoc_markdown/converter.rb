@@ -3,6 +3,7 @@ require 'css_parser'
 require 'nokogiri'
 require 'kramdown'
 require 'cgi'
+require 'json'
 
 class GoogledocMarkdown::Converter
 
@@ -53,7 +54,14 @@ class GoogledocMarkdown::Converter
       a['href'] = parse_link(a['href'])
     end
 
-    doc.css('*').each do |el|
+    doc.css('a').each do |el|
+      if is_empty?(el)
+        el.add_next_sibling(el.children.to_html)
+        el.remove
+      end
+    end
+
+    doc.css('p, em, strong').each do |el|
       if el.children.all?{ |child| is_empty?(child) }
         el.remove
       end
@@ -73,8 +81,7 @@ class GoogledocMarkdown::Converter
   end
 
   def is_empty?(node)
-    # https://stackoverflow.com/questions/7183299/removing-p-elements-with-no-text-with-nokogiri
-    (node.text? && node.content.strip == '')
+    /^[[:space:]]*$/.match(node.content) != nil
   end
 
   def rewrap(tag: nil, html: nil)
@@ -107,7 +114,7 @@ class GoogledocMarkdown::Converter
   end
 
   def body_for html
-    Nokogiri::HTML(html).css('body').inner_html
+    Nokogiri::HTML(html).css('body').inner_html.gsub("&nbsp;", ' ')
   end
 
   def parse_link href

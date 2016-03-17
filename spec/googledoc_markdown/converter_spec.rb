@@ -55,6 +55,12 @@ describe GoogledocMarkdown::Converter do
     expect(converter.to_markdown).to eq("*italic*")
   end
 
+  it "removes <a> with empty contents, preserves whitespace" do
+    fixture = "<p>first<a href=\"href1\"> </a><a href=\"href1\">second</a> third<a href=\"href2\"> </a>fourth</p>"
+    converter = GoogledocMarkdown::Converter.new(html: fixture)
+    expect(converter.to_html).to eq("<p>first <a href=\"href1\">second</a> third fourth</p>")
+  end
+
   it "converts fixtures to html" do
     fixtures.each do |fixture|
       converter = GoogledocMarkdown::Converter.new(html: load_fixture("#{fixture}/input.html"))
