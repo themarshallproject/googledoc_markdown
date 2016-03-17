@@ -10,6 +10,16 @@ class GoogledocMarkdown::Converter
     @html = html.to_s
   end
 
+  def is_empty?(node)
+    # https://stackoverflow.com/questions/7183299/removing-p-elements-with-no-text-with-nokogiri
+    (node.text? && node.content.strip == '')
+  end
+
+  def rewrap(tag: nil, html: nil)
+    leading, content, trailing = partition_whitespace(html)
+    [leading, "<#{tag}>", content, "</#{tag}>", trailing].join('')
+  end
+
   def to_html
     inlined = inline_styles(@html)
     body = body_for(inlined)
@@ -22,13 +32,11 @@ class GoogledocMarkdown::Converter
       el.delete('class')
 
       if rules['font-weight'] == 'bold'
-        leading, content, trailing = partition_whitespace(el.inner_html)
-        el.inner_html = "#{leading}<strong>#{content}</strong>#{trailing}"
+        el.inner_html = rewrap(tag: 'strong', html: el.inner_html)
       end
 
       if rules['font-style'] == 'italic'
-        leading, content, trailing = partition_whitespace(el.inner_html)
-        el.inner_html = "#{leading}<em>#{content}</em>#{trailing}"
+        el.inner_html = rewrap(tag: 'em', html: el.inner_html)
       end
 
     end
@@ -60,9 +68,7 @@ class GoogledocMarkdown::Converter
       end
     end
 
-    doc
-      .to_html
-      .lstrip
+    doc.to_html.lstrip
   end
 
   def to_markdown
