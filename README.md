@@ -21,7 +21,7 @@ Here's the strategy:
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'googledoc_markdown', github: 'ivarvong/googledoc_markdown', tag: 'v0.1.0'
+gem 'googledoc_markdown', github: 'ivarvong/googledoc_markdown', tag: 'v0.1.1'
 ```
 
 And then execute:
