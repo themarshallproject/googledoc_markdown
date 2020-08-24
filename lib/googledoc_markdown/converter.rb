@@ -67,7 +67,7 @@ class GoogledocMarkdown::Converter
       end
     end
 
-    doc.to_html.lstrip
+    doc.to_html.strip
   end
 
   def to_markdown

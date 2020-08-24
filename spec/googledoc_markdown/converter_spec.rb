@@ -64,7 +64,7 @@ describe GoogledocMarkdown::Converter do
   it "converts fixtures to html" do
     fixtures.each do |fixture|
       converter = GoogledocMarkdown::Converter.new(html: load_fixture("#{fixture}/input.html"))
-      expect(converter.to_html).to eq(load_fixture("#{fixture}/output.html"))
+      expect(converter.to_html).to eq(load_fixture("#{fixture}/output.html").strip)
     end
   end
 
